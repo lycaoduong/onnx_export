@@ -1,0 +1,5 @@
+pyinstaller onnx_export.py -p C:\Users\user\anaconda3\envs\ui_onnx\Lib\site-packages --hidden-import torchvision --hidden-import torch --hidden-import numpy -p C:\Users\user\AppData\Local\Temp\tmpg_sy60u_\application\onnx_export\torch\lib
+
+nvrtc64_112_0.dll
+KERNEL32.dll
+pyi-bindepend caffe2_nvrtc.dll
