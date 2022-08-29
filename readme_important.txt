@@ -1,4 +1,4 @@
-pyinstaller onnx_export.py -p C:\Users\user\anaconda3\envs\ui_onnx\Lib\site-packages --hidden-import torchvision --hidden-import torch --hidden-import numpy -p C:\Users\user\AppData\Local\Temp\tmpg_sy60u_\application\onnx_export\torch\lib
+pyinstaller onnx_export.py -p C:\Users\user\anaconda3\envs\ui_onnx\Lib\site-packages --hidden-import torchvision --hidden-import torch --hidden-import numpy -p C:\Users\user\AppData\Local\Temp\tmpg_sy60u_\application\onnx_export\torch\lib --hidden-import models --hidden-import models.yolo --hidden-import models.common --hidden-import models.experimental
 
 nvrtc64_112_0.dll
 KERNEL32.dll
