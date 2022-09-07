@@ -5,21 +5,23 @@ import numpy as np
 from networks.yolov7_pt.experimental import attempt_load
 
 
-def yolov7_pt_2_onnx(weightfile, save_dir='./', onnx_file_name=None):
+def yolov7_pt_2_onnx(weightfile, input_size=512, save_dir='./', onnx_file_name=None, dynamic=False):
     device = 'cpu'
     model = attempt_load(weightfile, map_location=device)
     model.eval()
 
     input_names = ["input"]
     output_names = ["output"]
-    x = torch.randn((1, 3, 512, 512), requires_grad=True)
+    x = torch.randn((1, 3, input_size, input_size), requires_grad=True)
     if onnx_file_name is not None:
         onnx_file_name = "{}.onnx".format(onnx_file_name)
     else:
         onnx_file_name = "yolov7_pt.onnx"
     save_file_name = os.path.join(save_dir, onnx_file_name)
-    # dynamic_axes = {"input": {2: "img_w", 3: "img_h"}, "output": {0: "anchor_size"}}
-    dynamic_axes = None
+    if dynamic:
+        dynamic_axes = {"input": {2: "img_w", 3: "img_h"}, "output": {0: "anchor_size"}}
+    else:
+        dynamic_axes = None
     torch.onnx.export(model,
                       x,
                       save_file_name,
