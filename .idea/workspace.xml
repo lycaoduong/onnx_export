@@ -5,8 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="daac85d8-cd66-46dc-a658-d79b6ea080b7" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/onnx_export_wt_gui.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/onnx_export_wt_gui.py" beforeDir="false" afterPath="$PROJECT_DIR$/onnx_export_wt_gui.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/utils/convert_model.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/convert_model.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -127,7 +127,7 @@
       <workItem from="1661844991868" duration="2504000" />
       <workItem from="1661906358852" duration="3846000" />
       <workItem from="1662023908884" duration="23000" />
-      <workItem from="1662526531051" duration="1823000" />
+      <workItem from="1662526531051" duration="3713000" />
     </task>
     <servers />
   </component>

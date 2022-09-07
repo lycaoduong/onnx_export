@@ -31,8 +31,13 @@ def yolov7_pt_2_onnx(weightfile, input_size=512, save_dir='./', onnx_file_name=N
                       input_names=input_names, output_names=output_names,
                       dynamic_axes=dynamic_axes)
 
-    input_shape = '[1 3 dynamic dynamic]'
-    output_shape = '[dynamic 22]'
+    if dynamic:
+        input_shape = '[1 3 dynamic dynamic]'
+        output_shape = '[dynamic 22]'
+    else:
+        num_output = int(3 * (np.power((input_size / 8), 2) + np.power((input_size / 16), 2) + np.power((input_size / 32), 2)))
+        input_shape = '[{} 3 {} {}]'.format(1, input_size, input_size)
+        output_shape = '[{} 6]'.format(num_output)
     return input_shape, output_shape
 
 
