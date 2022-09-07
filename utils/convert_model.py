@@ -2,12 +2,14 @@ import torch
 import os
 from networks.darknet.darknet_pytorch import Darknet_custom
 import numpy as np
-from networks.yolov7_pt.experimental import attempt_load
+from models.yolo import Model
 
 
-def yolov7_pt_2_onnx(weightfile, input_size=512, save_dir='./', onnx_file_name=None, dynamic=False):
+def yolov7_pt_2_onnx(cfg_file, weightfile, input_size=512, save_dir='./', onnx_file_name=None, dynamic=False):
     device = 'cpu'
-    model = attempt_load(weightfile, map_location=device)
+    model = Model(cfg_file).to(device)
+    weight = torch.load(weightfile, map_location=device)
+    model.load_state_dict(weight, strict=False)
     model.eval()
 
     input_names = ["input"]

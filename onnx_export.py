@@ -44,9 +44,11 @@ class Worker(QRunnable):
                 return '-1'
         elif version == 7:
             weight_file = [f for f in os.listdir(save_path) if f.endswith('.pt')]
-            if len(weight_file):
+            cfg_file = [f for f in os.listdir(save_path) if f.endswith('.yaml')]
+            if len(weight_file) and len(cfg_file):
                 weight = os.path.join(save_path, weight_file[0])
-                in_s, out_s = yolov7_pt_2_onnx(weight, save_path, onnx_file_name=weight_file[0][:-3])
+                cfg = os.path.join(save_path, cfg_file[0])
+                in_s, out_s = yolov7_pt_2_onnx(cfg, weight, 512, save_path, onnx_file_name=weight_file[0][:-3],dynamic=False)
                 return 'Done. In: {}, Out: {}'.format(in_s, out_s)
             else:
                 return '-1'
