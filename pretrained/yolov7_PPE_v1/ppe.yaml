@@ -1,0 +1,17 @@
+
+# PPE dataset Visionin 2022
+
+# download command/URL (optional)
+# download: bash ./scripts/get_coco.sh
+
+# train and val data as 1) directory: path/images/, 2) file: path/images.txt, or 3) list: [path1/images/, path2/images/]
+train: data/ppe/train.txt  # 118287 images
+val: data/ppe/validation.txt  # 5000 images
+test: data/ppe/test.txt  # 20288 of 40670 images, submit to https://competitions.codalab.org/competitions/20794
+
+# number of classes
+nc: 17
+
+# class names
+names: [ 'human', 'helmet', 'safety vest', 'face shield', 'safety shoes', 'safety uniform', 'safety boots', 
+         'gloves', 'overall', 'smoke', 'head', 'fire', ' falldown', 'coat', 'apron', 'non_helmet', 'half_fall']

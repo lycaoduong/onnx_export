@@ -1,2 +1,5 @@
 /build
 /dist
+pretrained/yolov7_PPE_v1-20220830T081659Z-001.zip
+pretrained/yolov7_PPE_v1/best.onnx
+pretrained/yolov7_PPE_v1/best.pt

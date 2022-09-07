@@ -18,7 +18,8 @@ def yolov7_pt_2_onnx(weightfile, save_dir='./', onnx_file_name=None):
     else:
         onnx_file_name = "yolov7_pt.onnx"
     save_file_name = os.path.join(save_dir, onnx_file_name)
-    dynamic_axes = {"input": {2: "img_w", 3: "img_h"}, "output": {0: "anchor_size"}}
+    # dynamic_axes = {"input": {2: "img_w", 3: "img_h"}, "output": {0: "anchor_size"}}
+    dynamic_axes = None
     torch.onnx.export(model,
                       x,
                       save_file_name,
