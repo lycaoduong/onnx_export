@@ -2,8 +2,8 @@ from utils.convert_model import yolov4_darknet_2_onnx, yolov7_pt_2_onnx
 import argparse
 
 
-def convert_yolov4_onnx(cfg, weight, save_dir='./export_model', save_name='v4_test'):
-    in_s, out_s = yolov4_darknet_2_onnx(cfg, weight, 1, None, save_dir, onnx_file_name=save_name)
+def convert_yolov4_onnx(cfg, weight, save_dir='./export_model', save_name='v4_test', batch=False):
+    in_s, out_s = yolov4_darknet_2_onnx(cfg, weight, 4, None, save_dir, onnx_file_name=save_name, quantization=True, batch=batch)
     print('Done. In: {}, Out: {}'.format(in_s, out_s))
     print('Check model on {}'.format(save_dir))
 
@@ -14,7 +14,7 @@ def convert_yolo7_onnx(cfg_file, weight, input_size=512, save_dir='./export_mode
 
 def get_args():
     parser = argparse.ArgumentParser('Convert YOLO to ONNX')
-    parser.add_argument('-v', '--version', type=int, default=7, help='Choosing Yolo version: 4 or 7')
+    parser.add_argument('-v', '--version', type=int, default=4, help='Choosing Yolo version: 4 or 7')
     parser.add_argument('-cfg4', '--cfg_filev4', type=str, default='./pretrained/yolov4_PPE/samsung_PPE.cfg',
                         help='YoloV4 config file')
     parser.add_argument('-v4w', '--v4_weight', type=str, default='./pretrained/yolov4_PPE/samsung_PPE.weights',
@@ -23,7 +23,7 @@ def get_args():
                         help='YoloV7 weights file')
     parser.add_argument('-cfg7', '--cfg_filev7', type=str, default='./pretrained/yolov7_PPE_v1/yolov7_ppe_v1.yaml',
                         help='YoloV4 config file')
-    parser.add_argument('-in_size', '--input_size', type=int, default=512,
+    parser.add_argument('-in_size', '--input_size', type=int, default=608,
                         help='YoloV7 input image size')
     parser.add_argument('-dyn', '--dynamic', type=bool, default=False,
                         help='Set dynamic axes for V7 onnx')
@@ -45,7 +45,7 @@ if __name__ == '__main__':
     if version == 4:
         cfg_file = opt.get('cfg_filev4')
         weight_file_v4 = opt.get('v4_weight')
-        convert_yolov4_onnx(cfg_file, weight_file_v4)
+        convert_yolov4_onnx(cfg_file, weight_file_v4, batch=True)
     elif version == 7:
         weight_file_v7 = opt.get('v7_weight')
         input_size = opt.get('input_size')

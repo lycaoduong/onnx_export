@@ -10,9 +10,13 @@ import numpy as np
 class Mish(torch.nn.Module):
     def __init__(self):
         super().__init__()
+        # self.quant = torch.quantization.QuantStub()
+        # self.dequant = torch.quantization.DeQuantStub()
 
     def forward(self, x):
+        # x = self.dequant(x)
         x = x * (torch.tanh(torch.nn.functional.softplus(x)))
+        # x = self.quant(x)
         return x
 
 class MaxPoolDark(nn.Module):
@@ -127,7 +131,11 @@ class Darknet_custom(nn.Module):
         self.header = torch.IntTensor([0, 0, 0, 0])
         self.seen = 0
 
+        # self.quant = torch.quantization.QuantStub()
+        # self.dequant = torch.quantization.DeQuantStub()
+
     def forward(self, x):
+        # x = self.quant(x)
         ind = -2
         self.loss = None
         outputs = dict()

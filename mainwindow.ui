@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>ONNX Export - Visionin</string>
+   <string>ONNX Export V2 - Visionin</string>
   </property>
   <widget class="QGroupBox" name="groupBox">
    <property name="geometry">
@@ -144,6 +144,19 @@
    </property>
    <property name="text">
     <string>Status:</string>
+   </property>
+  </widget>
+  <widget class="QCheckBox" name="checkBox_batch">
+   <property name="geometry">
+    <rect>
+     <x>160</x>
+     <y>170</y>
+     <width>91</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Multi-frame</string>
    </property>
   </widget>
  </widget>
