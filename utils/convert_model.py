@@ -74,7 +74,10 @@ def yolov4_darknet_2_onnx(cfgfile, weightfile, batch_size=1, num_output=None, sa
     # print(o.shape)
 
     if onnx_file_name is not None:
-        onnx_file_name = "{}.onnx".format(onnx_file_name)
+        if batch:
+            onnx_file_name = "{}_dynamic_3_{}_{}.onnx".format(onnx_file_name, model.height, model.width)
+        else:
+            onnx_file_name = "{}_{}_3_{}_{}_static.onnx".format(onnx_file_name, batch_size, model.height, model.width)
     else:
         onnx_file_name = "yolov4_{}_3_{}_{}_static.onnx".format(batch_size, model.height, model.width)
 
@@ -82,7 +85,7 @@ def yolov4_darknet_2_onnx(cfgfile, weightfile, batch_size=1, num_output=None, sa
     # dynamic_axes = {"input": {2: "img_w", 3: "img_h"}, "output": {3: "anchor_size"}}
     if batch:
         dynamic_axes = {"input": {0: "num_batch"}, "output": {0: "num_batch"}}
-        batch_size = 'Multi'
+        batch_size = 'Dynamic'
     else:
         dynamic_axes = None
     torch.onnx.export(model,

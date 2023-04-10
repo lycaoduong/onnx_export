@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>438</width>
-    <height>214</height>
+    <height>244</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -137,27 +137,62 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>190</y>
+     <y>210</y>
      <width>391</width>
      <height>16</height>
     </rect>
    </property>
    <property name="text">
-    <string>Status:</string>
+    <string>Status: If you want to run with TensorRT, uncheck Dynamic button</string>
    </property>
   </widget>
-  <widget class="QCheckBox" name="checkBox_batch">
+  <widget class="QGroupBox" name="groupBox_3">
    <property name="geometry">
     <rect>
-     <x>160</x>
-     <y>170</y>
-     <width>91</width>
-     <height>20</height>
+     <x>20</x>
+     <y>150</y>
+     <width>231</width>
+     <height>58</height>
     </rect>
    </property>
-   <property name="text">
-    <string>Multi-frame</string>
+   <property name="title">
+    <string>Set Batch size</string>
    </property>
+   <widget class="QCheckBox" name="checkBox_batch">
+    <property name="geometry">
+     <rect>
+      <x>80</x>
+      <y>27</y>
+      <width>141</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <italic>false</italic>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>Dynamic (CUDA only)</string>
+    </property>
+   </widget>
+   <widget class="QSpinBox" name="spinBox_batch">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>26</y>
+      <width>33</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="minimum">
+     <number>1</number>
+    </property>
+    <property name="maximum">
+     <number>16</number>
+    </property>
+   </widget>
   </widget>
  </widget>
  <resources/>

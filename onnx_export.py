@@ -1,5 +1,5 @@
 from PyQt5 import uic
-from PyQt5.QtWidgets import QApplication, QDialog, QFileDialog, QMessageBox, QPushButton, QComboBox, QLabel, QRadioButton, QCheckBox
+from PyQt5.QtWidgets import QApplication, QDialog, QFileDialog, QMessageBox, QPushButton, QComboBox, QLabel, QRadioButton, QCheckBox, QSpinBox
 from PyQt5.QtCore import QRunnable, QThreadPool, QObject, pyqtSignal
 import traceback, sys
 import os
@@ -12,16 +12,17 @@ class WorkerSignals(QObject):
     result = pyqtSignal(object)
 
 class Worker(QRunnable):
-    def __init__(self, path, version=4, with_batch=False):
+    def __init__(self, path, version=4, batch_size=1, dynamic_batch=False):
         super(Worker, self).__init__()
         # Store constructor arguments (re-used for processing)
         self.save_path = path
         self.version = version
-        self.batch = with_batch
+        self.batch_size = batch_size
+        self.batch = dynamic_batch
         self.signals = WorkerSignals()
     def run(self):
         try:
-            result = self.convert_function(self.save_path, self.version, with_batch=self.batch)
+            result = self.convert_function(self.save_path, self.version, self.batch_size, with_batch=self.batch)
         except:
             traceback.print_exc()
             exctype, value = sys.exc_info()[:2]
@@ -31,14 +32,14 @@ class Worker(QRunnable):
         finally:
             self.signals.finished.emit()  # Done
 
-    def convert_function(self, save_path, version, with_batch=False):
+    def convert_function(self, save_path, version, batch_size=1, with_batch=False):
         if version == 4:
             cfg_file = [f for f in os.listdir(save_path) if f.endswith('.cfg')]
             weight_file = [f for f in os.listdir(save_path) if f.endswith('.weights')]
             if len(cfg_file) and len(weight_file):
                 cfg = os.path.join(save_path, cfg_file[0])
                 weight = os.path.join(save_path, weight_file[0])
-                in_s, out_s = yolov4_darknet_2_onnx(cfg, weight, 1, None, save_path,
+                in_s, out_s = yolov4_darknet_2_onnx(cfg, weight, batch_size=batch_size, num_output=None, save_dir=save_path,
                                                     onnx_file_name=cfg_file[0][:-4], batch=with_batch)
                 return 'Done. In: {}, Out: {}'.format(in_s, out_s)
             else:
@@ -49,7 +50,7 @@ class Worker(QRunnable):
             if len(weight_file) and len(cfg_file):
                 weight = os.path.join(save_path, weight_file[0])
                 cfg = os.path.join(save_path, cfg_file[0])
-                in_s, out_s = yolov7_pt_2_onnx(cfg, weight, 512, save_path, onnx_file_name=weight_file[0][:-3],dynamic=False)
+                in_s, out_s = yolov7_pt_2_onnx(cfg, weight, 512, save_path, onnx_file_name=weight_file[0][:-3], dynamic=False)
                 return 'Done. In: {}, Out: {}'.format(in_s, out_s)
             else:
                 return '-1'
@@ -73,9 +74,10 @@ class Ui(QDialog):
         self.yolov7 = self.findChild(QRadioButton, 'radioButton_yolov7')
 
         self.multi_batch = self.findChild(QCheckBox, 'checkBox_batch')
+        self.batch_size = self.findChild(QSpinBox, 'spinBox_batch')
 
         self.status = self.findChild(QLabel, 'label_status')
-        self.status.setText('...')
+        #self.status.setText('...')
 
         self.path_model = self.findChild(QComboBox, 'comboBox_path')
         self.save_path = ''
@@ -106,9 +108,10 @@ class Ui(QDialog):
         if self.save_path != '':
             if self.yolov4.isChecked():
                 if self.multi_batch.isChecked():
-                    worker = Worker(self.save_path, 4, with_batch=True)
+                    worker = Worker(self.save_path, 4, dynamic_batch=True)
                 else:
-                    worker = Worker(self.save_path, 4)
+                    batch_size = self.batch_size.value()
+                    worker = Worker(self.save_path, 4, batch_size=batch_size)
             elif self.yolov7.isChecked():
                 worker = Worker(self.save_path, 7)
 
